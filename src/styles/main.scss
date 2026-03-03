@@ -1,0 +1,6 @@
+// abstracts are auto-injected into every file via vite.config additionalData
+// Use @use with explicit load for base styles
+@use 'abstracts' as *;
+@use 'base/reset';
+@use 'base/typography';
+@use 'base/animation';
