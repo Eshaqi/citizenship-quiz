@@ -1,0 +1,9 @@
+@use '../abstracts/variables' as *;
+
+.page-enter {
+  animation: fadeIn $transition-base ease both;
+}
+
+.page-slide {
+  animation: slideUp $transition-base ease both;
+}

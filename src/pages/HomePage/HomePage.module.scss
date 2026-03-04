@@ -263,3 +263,90 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
+
+// ── Resume banner ───────────────────────
+
+.resumeBanner {
+  background-color: $color-primary-tint;
+  border-bottom: 2px solid $color-primary-light;
+  animation: slideDown $transition-base ease both;
+}
+
+.resumeInner {
+  @include container($container-xl);
+  @include flex-between;
+  flex-wrap: wrap;
+  gap: $space-3;
+  padding-block: $space-3;
+
+  @include respond-to(md) {
+    padding-block: $space-4;
+  }
+}
+
+.resumeText {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+
+  strong {
+    display: block;
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+    color: $color-primary;
+  }
+
+  p {
+    font-size: $font-size-sm;
+    color: $color-grey-600;
+    margin-top: 2px;
+  }
+}
+
+.resumeIcon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.resumeActions {
+  display: flex;
+  gap: $space-2;
+  flex-shrink: 0;
+}
+
+.btnResume {
+  @include button-reset;
+  @include touch-target;
+  @include interactive;
+
+  padding: $space-2 $space-5;
+  background-color: $color-primary;
+  color: $color-white;
+  border-radius: $radius-md;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+
+  &:hover {
+    background-color: $color-primary-light;
+  }
+}
+
+.btnDiscard {
+  @include button-reset;
+  @include touch-target;
+  @include interactive;
+
+  padding: $space-2 $space-4;
+  background-color: transparent;
+  color: $color-grey-600;
+  border: 1.5px solid $color-grey-300;
+  border-radius: $radius-md;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+
+  &:hover {
+    background-color: $color-white;
+    color: $color-error;
+    border-color: $color-error;
+  }
+}

@@ -1,6 +1,6 @@
-import { useEffect } from 'react'
+import { useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useQuiz } from '@/features/quiz/hooks'
+import { useQuiz, useKeyboard } from '@/features/quiz/hooks'
 import { PARTS } from '@/data'
 import QuizCard from '@/features/quiz/components/QuizCard'
 import { ProgressBar } from '@/components/ui'
@@ -33,6 +33,24 @@ const QuizPage = () => {
     }
   }, [isComplete, navigate])
 
+  // Keyboard: select option by index from question.options array
+  const handleKeyboardSelect = useCallback(
+    (index: number) => {
+      if (!currentQuestion) return
+      const option = currentQuestion.options[index]
+      if (option) answerQuestion(option.id)
+    },
+    [currentQuestion, answerQuestion],
+  )
+
+  useKeyboard({
+    onSelectOption: handleKeyboardSelect,
+    onNext: nextQuestion,
+    isAnswered,
+    optionCount: currentQuestion?.options.length ?? 0,
+    enabled: state.status === 'active' || state.status === 'answered',
+  })
+
   if (!currentQuestion) return null
 
   const part = PARTS.find(p => p.id === currentQuestion.partId)!
@@ -41,6 +59,22 @@ const QuizPage = () => {
   return (
     <div className={styles.page}>
       <div className={styles.inner}>
+        {/* ── Keyboard hint ── */}
+        <div className={styles.keyboardHint}>
+          <kbd>A</kbd>
+          <kbd>B</kbd>
+          <kbd>C</kbd>
+          <kbd>D</kbd>
+          <span>to select</span>
+          {isAnswered && (
+            <>
+              <span className={styles.hintDivider}>·</span>
+              <kbd>Enter</kbd>
+              <span>to continue</span>
+            </>
+          )}
+        </div>
+
         {/* ── Progress ── */}
         <div className={styles.progressWrapper}>
           <ProgressBar
@@ -73,7 +107,11 @@ const QuizPage = () => {
                 {currentAnswer?.status === 'correct' ? '✅' : '❌'}
               </span>
               <div className={styles.feedbackText}>
-                <strong>{currentAnswer?.status === 'correct' ? 'Correct!' : 'Incorrect!'}</strong>
+                <strong>
+                  {currentAnswer?.status === 'correct'
+                    ? 'Correct!'
+                    : 'Incorrect — see the correct answer above'}
+                </strong>
                 <span>
                   Score: {score} / {state.currentIndex + 1}
                 </span>

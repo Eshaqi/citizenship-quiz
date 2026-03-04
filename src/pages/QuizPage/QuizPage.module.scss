@@ -88,3 +88,41 @@
     width: auto;
   }
 }
+
+.keyboardHint {
+  display: none; // hidden on mobile — touch devices don't need this
+
+  @include respond-to(lg) {
+    display: flex;
+    align-items: center;
+    gap: $space-2;
+    font-size: $font-size-xs;
+    color: $color-grey-500;
+  }
+
+  kbd {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 24px;
+    padding: 2px $space-2;
+    background-color: $color-grey-100;
+    border: 1px solid $color-grey-300;
+    border-bottom-width: 2px;
+    border-radius: $radius-sm;
+    font-family: $font-family-mono;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    color: $color-grey-700;
+    line-height: 1.6;
+  }
+
+  span {
+    color: $color-grey-400;
+  }
+}
+
+.hintDivider {
+  color: $color-grey-300;
+  margin-inline: $space-1;
+}

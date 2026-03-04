@@ -6,15 +6,49 @@ import styles from './HomePage.module.scss'
 
 const HomePage = () => {
   const navigate = useNavigate()
-  const { startQuiz } = useQuiz()
+  const { startQuiz, hasSavedSession, state, restartQuiz } = useQuiz()
 
   const handleStart = (config: QuizConfig) => {
     startQuiz(config)
     navigate('/quiz')
   }
 
+  const handleResume = () => {
+    navigate('/quiz')
+  }
+
+  const handleDiscard = () => {
+    restartQuiz()
+  }
+
   return (
     <div className={styles.page}>
+      {/* ── Resume banner ── */}
+      {hasSavedSession && (
+        <div className={styles.resumeBanner}>
+          <div className={styles.resumeInner}>
+            <div className={styles.resumeText}>
+              <span className={styles.resumeIcon}>💾</span>
+              <div>
+                <strong>You have an unfinished quiz</strong>
+                <p>
+                  Question {state.currentIndex + 1} of {state.questions.length} ·{' '}
+                  {state.userAnswers.filter(a => a.status === 'correct').length} correct so far
+                </p>
+              </div>
+            </div>
+            <div className={styles.resumeActions}>
+              <button className={styles.btnResume} onClick={handleResume}>
+                Resume →
+              </button>
+              <button className={styles.btnDiscard} onClick={handleDiscard}>
+                Discard
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* ── Hero ── */}
       <section className={styles.hero}>
         <div className={styles.heroInner}>

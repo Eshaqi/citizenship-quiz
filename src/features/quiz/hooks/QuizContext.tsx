@@ -1,6 +1,16 @@
-import { createContext, useContext, useReducer, useCallback, useMemo, type ReactNode } from 'react'
+import {
+  createContext,
+  useContext,
+  useReducer,
+  useCallback,
+  useMemo,
+  useEffect,
+  type ReactNode,
+} from 'react'
+import { QuizReducer, initialState } from './QuizReducer'
+import { useQuizPersistence, loadQuizState, clearQuizState } from './useQuizPersistence'
 import type { QuizState, QuizConfig } from '@/features/quiz/types'
-import { initialState, QuizAction, QuizReducer } from './QuizReducer'
+import type { QuizAction } from './QuizReducer'
 
 // ─────────────────────────────────────────
 // Context shape
@@ -9,23 +19,19 @@ import { initialState, QuizAction, QuizReducer } from './QuizReducer'
 interface QuizContextValue {
   state: QuizState
   dispatch: React.Dispatch<QuizAction>
-  // Derived helpers — computed once here, consumed anywhere
   currentQuestion: QuizState['questions'][number] | null
   currentAnswer: QuizState['userAnswers'][number] | null
   score: number
   progressPercentage: number
   isAnswered: boolean
   isComplete: boolean
-  // Action dispatchers
+  hasSavedSession: boolean
   startQuiz: (config: QuizConfig) => void
   answerQuestion: (optionId: string) => void
   nextQuestion: () => void
   restartQuiz: () => void
+  resumeSession: () => void
 }
-
-// ─────────────────────────────────────────
-// Create context
-// ─────────────────────────────────────────
 
 const QuizContext = createContext<QuizContextValue | null>(null)
 
@@ -34,7 +40,19 @@ const QuizContext = createContext<QuizContextValue | null>(null)
 // ─────────────────────────────────────────
 
 export const QuizProvider = ({ children }: { children: ReactNode }) => {
-  const [state, dispatch] = useReducer(QuizReducer, initialState)
+  // Restore persisted state or start fresh
+  const savedState = loadQuizState()
+  const [state, dispatch] = useReducer(QuizReducer, savedState ?? initialState)
+
+  // Auto-save on every state change
+  useQuizPersistence(state)
+
+  // Clear storage when quiz completes
+  useEffect(() => {
+    if (state.status === 'complete') {
+      clearQuizState()
+    }
+  }, [state.status])
 
   // ── Derived state ───────────────────────
 
@@ -54,6 +72,8 @@ export const QuizProvider = ({ children }: { children: ReactNode }) => {
 
   const isAnswered = state.status === 'answered'
   const isComplete = state.status === 'complete'
+  const hasSavedSession =
+    savedState !== null && (savedState.status === 'active' || savedState.status === 'answered')
 
   // ── Action dispatchers ──────────────────
 
@@ -70,10 +90,16 @@ export const QuizProvider = ({ children }: { children: ReactNode }) => {
   }, [])
 
   const restartQuiz = useCallback(() => {
+    clearQuizState()
     dispatch({ type: 'RESTART_QUIZ' })
   }, [])
 
-  // ── Memoised context value ──────────────
+  const resumeSession = useCallback(() => {
+    // State is already restored from localStorage — just a no-op signal
+    // Navigation handled by the component consuming this
+  }, [])
+
+  // ── Memoised value ──────────────────────
 
   const value = useMemo<QuizContextValue>(
     () => ({
@@ -85,10 +111,12 @@ export const QuizProvider = ({ children }: { children: ReactNode }) => {
       progressPercentage,
       isAnswered,
       isComplete,
+      hasSavedSession,
       startQuiz,
       answerQuestion,
       nextQuestion,
       restartQuiz,
+      resumeSession,
     }),
     [
       state,
@@ -98,10 +126,12 @@ export const QuizProvider = ({ children }: { children: ReactNode }) => {
       progressPercentage,
       isAnswered,
       isComplete,
+      hasSavedSession,
       startQuiz,
       answerQuestion,
       nextQuestion,
       restartQuiz,
+      resumeSession,
     ],
   )
 
@@ -109,7 +139,7 @@ export const QuizProvider = ({ children }: { children: ReactNode }) => {
 }
 
 // ─────────────────────────────────────────
-// Hook — safe consumer
+// Hook
 // ─────────────────────────────────────────
 
 export const useQuiz = (): QuizContextValue => {

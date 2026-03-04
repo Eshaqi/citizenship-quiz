@@ -1,3 +1,5 @@
 export { QuizProvider, useQuiz } from './QuizContext'
 export { QuizReducer, initialState } from './QuizReducer'
+export { useKeyboard } from './useKeyboard'
+export { useQuizPersistence, loadQuizState, clearQuizState } from './useQuizPersistence'
 export type { QuizAction } from './QuizReducer'
