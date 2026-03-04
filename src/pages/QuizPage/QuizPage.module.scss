@@ -1,0 +1,90 @@
+@use '../../styles/abstracts/breakpoints' as *;
+@use '../../styles/abstracts/variables' as *;
+@use '../../styles/abstracts/mixins' as *;
+
+.page {
+  padding-block: $space-6;
+
+  @include respond-to(md) {
+    padding-block: $space-10;
+  }
+}
+
+.inner {
+  @include container($container-md);
+  @include flex-column;
+  gap: $space-5;
+
+  @include respond-to(md) {
+    gap: $space-6;
+  }
+}
+
+.progressWrapper {
+  animation: fadeIn $transition-base ease both;
+}
+
+.feedbackBar {
+  @include flex-between;
+  flex-wrap: wrap;
+  gap: $space-3;
+  padding: $space-4;
+  border-radius: $radius-lg;
+  border: 2px solid transparent;
+  animation: slideUp $transition-base ease both;
+
+  @include respond-to(md) {
+    padding: $space-4 $space-6;
+    flex-wrap: nowrap;
+  }
+}
+
+.feedbackLeft {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+}
+
+.feedbackIcon {
+  font-size: 1.5rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.feedbackText {
+  @include flex-column;
+  gap: 2px;
+
+  strong {
+    font-size: $font-size-base;
+    font-weight: $font-weight-bold;
+    color: $color-grey-900;
+
+    @include respond-to(md) {
+      font-size: $font-size-md;
+    }
+  }
+
+  span {
+    font-size: $font-size-sm;
+    color: $color-grey-600;
+  }
+}
+
+.btnNext {
+  @include button-reset;
+  @include touch-target;
+  @include interactive;
+
+  padding: $space-3 $space-6;
+  border-radius: $radius-md;
+  color: $color-white;
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  white-space: nowrap;
+  width: 100%;
+
+  @include respond-to(sm) {
+    width: auto;
+  }
+}

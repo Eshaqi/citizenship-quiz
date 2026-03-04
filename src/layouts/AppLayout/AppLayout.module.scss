@@ -1,0 +1,78 @@
+@use '../../styles/abstracts/breakpoints' as *;
+@use '../../styles/abstracts/variables' as *;
+@use '../../styles/abstracts/mixins' as *;
+
+.layout {
+  @include flex-column;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+.header {
+  background-color: $color-primary;
+  box-shadow: $shadow-md;
+  position: sticky;
+  top: 0;
+  z-index: $z-sticky;
+}
+
+.headerInner {
+  @include container($container-xl);
+  @include flex-center;
+  justify-content: flex-start;
+  gap: $space-3;
+  padding-block: $space-3;
+
+  @include respond-to(md) {
+    padding-block: $space-4;
+  }
+}
+
+.logo {
+  font-size: 1.75rem;
+  line-height: 1;
+
+  @include respond-to(md) {
+    font-size: 2rem;
+  }
+}
+
+.logoText {
+  @include flex-column;
+  gap: 2px;
+}
+
+.logoTitle {
+  font-size: $font-size-md;
+  font-weight: $font-weight-bold;
+  color: $color-white;
+  line-height: $line-height-tight;
+
+  @include respond-to(md) {
+    font-size: $font-size-lg;
+  }
+}
+
+.logoSub {
+  font-size: $font-size-xs;
+  color: rgba($color-white, 0.7);
+  letter-spacing: 0.04em;
+}
+
+.main {
+  flex: 1;
+  width: 100%;
+}
+
+.footer {
+  @include flex-column-center;
+  gap: $space-1;
+  padding-block: $space-6;
+  border-top: 1px solid $color-grey-200;
+  text-align: center;
+
+  p {
+    font-size: $font-size-xs;
+    color: $color-grey-500;
+  }
+}

@@ -1,0 +1,314 @@
+@use '../../styles/abstracts/breakpoints' as *;
+@use '../../styles/abstracts/variables' as *;
+@use '../../styles/abstracts/mixins' as *;
+
+.page {
+  padding-block: $space-8;
+
+  @include respond-to(md) {
+    padding-block: $space-12;
+  }
+}
+
+.inner {
+  @include container($container-lg);
+  @include flex-column;
+  gap: $space-8;
+
+  @include respond-to(md) {
+    gap: $space-10;
+  }
+}
+
+// ── Hero ────────────────────────────────
+
+.hero {
+  @include flex-column;
+  align-items: center;
+  gap: $space-6;
+  text-align: center;
+  animation: scaleIn $transition-slow ease both;
+
+  @include respond-to(md) {
+    flex-direction: row;
+    text-align: left;
+    gap: $space-8;
+    align-items: flex-start;
+  }
+}
+
+.scoreCircle {
+  @include flex-column-center;
+  flex-shrink: 0;
+  width: 140px;
+  height: 140px;
+  border-radius: $radius-full;
+  border: 5px solid transparent;
+  gap: $space-1;
+
+  @include respond-to(md) {
+    width: 160px;
+    height: 160px;
+  }
+}
+
+.scoreEmoji {
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.scoreNumber {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  line-height: $line-height-tight;
+}
+
+.scoreLabel {
+  font-size: $font-size-sm;
+  color: $color-grey-500;
+  font-weight: $font-weight-medium;
+}
+
+.heroText {
+  @include flex-column;
+  gap: $space-3;
+}
+
+.resultTitle {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  color: $color-grey-900;
+
+  @include respond-to(md) {
+    font-size: $font-size-3xl;
+  }
+}
+
+.resultSub {
+  font-size: $font-size-base;
+  color: $color-grey-600;
+  line-height: $line-height-relaxed;
+  max-width: 480px;
+}
+
+.passBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: $space-2 $space-4;
+  border-radius: $radius-full;
+  border: 2px solid transparent;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  align-self: center;
+
+  @include respond-to(md) {
+    align-self: flex-start;
+  }
+}
+
+// ── Breakdown ───────────────────────────
+
+.breakdown {
+  @include flex-column;
+  gap: $space-5;
+  animation: slideUp $transition-slow ease both;
+  animation-delay: 100ms;
+}
+
+.breakdownTitle {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  color: $color-grey-800;
+}
+
+.breakdownGrid {
+  @include grid(1, $space-4);
+
+  @include respond-to(sm) {
+    @include grid(2, $space-4);
+  }
+
+  @include respond-to(lg) {
+    @include grid(4, $space-5);
+  }
+}
+
+.breakdownCard {
+  @include card($space-4);
+  @include flex-column;
+  gap: $space-3;
+  border-top: 4px solid transparent;
+}
+
+.breakdownHeader {
+  @include flex-between;
+  align-items: center;
+}
+
+.breakdownPartNum {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-bold;
+  padding: $space-1 $space-3;
+  border-radius: $radius-full;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.breakdownPct {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+}
+
+.breakdownPartTitle {
+  font-size: $font-size-sm;
+  color: $color-grey-700;
+  line-height: $line-height-snug;
+  font-weight: $font-weight-medium;
+}
+
+.breakdownBar {
+  width: 100%;
+  height: 8px;
+  background-color: $color-grey-200;
+  border-radius: $radius-full;
+  overflow: hidden;
+}
+
+.breakdownFill {
+  height: 100%;
+  border-radius: $radius-full;
+  transition: width $transition-slow;
+}
+
+.breakdownScore {
+  font-size: $font-size-xs;
+  color: $color-grey-500;
+  font-weight: $font-weight-medium;
+}
+
+// ── Review ──────────────────────────────
+
+.review {
+  @include flex-column;
+  gap: $space-4;
+  animation: slideUp $transition-slow ease both;
+  animation-delay: 200ms;
+}
+
+.reviewTitle {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  color: $color-grey-800;
+}
+
+.reviewList {
+  @include flex-column;
+  gap: $space-3;
+}
+
+.reviewItem {
+  @include card($space-4);
+  @include flex-column;
+  gap: $space-2;
+  border-left: 4px solid $color-error;
+}
+
+.reviewMeta {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+}
+
+.reviewPart {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-bold;
+  padding: $space-1 $space-2;
+  border-radius: $radius-full;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.reviewQuestion {
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  color: $color-grey-900;
+  line-height: $line-height-snug;
+}
+
+.reviewWrong {
+  font-size: $font-size-sm;
+  color: $color-error;
+
+  span {
+    font-weight: $font-weight-semibold;
+  }
+}
+
+.reviewCorrect {
+  font-size: $font-size-sm;
+  color: $color-success;
+
+  span {
+    font-weight: $font-weight-semibold;
+  }
+}
+
+// ── Actions ─────────────────────────────
+
+.actions {
+  @include flex-column;
+  gap: $space-3;
+  align-items: center;
+  animation: slideUp $transition-slow ease both;
+  animation-delay: 300ms;
+
+  @include respond-to(sm) {
+    flex-direction: row;
+    justify-content: center;
+  }
+}
+
+.btnPrimary {
+  @include button-reset;
+  @include touch-target;
+  @include interactive;
+
+  padding: $space-3 $space-8;
+  background-color: $color-primary;
+  color: $color-white;
+  border-radius: $radius-md;
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  width: 100%;
+
+  @include respond-to(sm) {
+    width: auto;
+  }
+
+  &:hover {
+    background-color: $color-primary-light;
+  }
+}
+
+.btnSecondary {
+  @include button-reset;
+  @include touch-target;
+  @include interactive;
+
+  padding: $space-3 $space-8;
+  background-color: $color-white;
+  color: $color-primary;
+  border: 2px solid $color-primary;
+  border-radius: $radius-md;
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  width: 100%;
+
+  @include respond-to(sm) {
+    width: auto;
+  }
+
+  &:hover {
+    background-color: $color-primary-tint;
+  }
+}

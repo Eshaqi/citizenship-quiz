@@ -1,0 +1,265 @@
+@use '../../styles/abstracts/breakpoints' as *;
+@use '../../styles/abstracts/variables' as *;
+@use '../../styles/abstracts/mixins' as *;
+
+.page {
+  @include flex-column;
+}
+
+// ── Hero ────────────────────────────────
+
+.hero {
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  padding-block: $space-10;
+
+  @include respond-to(md) {
+    padding-block: $space-16;
+  }
+}
+
+.heroInner {
+  @include container($container-md);
+  @include flex-column;
+  align-items: center;
+  gap: $space-8;
+  text-align: center;
+}
+
+.heroText {
+  @include flex-column;
+  gap: $space-3;
+}
+
+.heroTitle {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  color: $color-white;
+  line-height: $line-height-tight;
+
+  @include respond-to(md) {
+    font-size: $font-size-3xl;
+  }
+}
+
+.heroAccent {
+  color: #ffd700;
+  display: block;
+
+  @include respond-to(sm) {
+    display: inline;
+  }
+}
+
+.heroSub {
+  font-size: $font-size-base;
+  color: rgba($color-white, 0.85);
+  max-width: 480px;
+  margin-inline: auto;
+  line-height: $line-height-relaxed;
+
+  @include respond-to(md) {
+    font-size: $font-size-md;
+  }
+}
+
+.btnAll {
+  @include button-reset;
+  @include touch-target;
+  @include interactive;
+  @include flex-between;
+
+  gap: $space-4;
+  width: 100%;
+  max-width: 420px;
+  padding: $space-4 $space-6;
+  background-color: $color-white;
+  border-radius: $radius-xl;
+  box-shadow: $shadow-xl;
+  text-align: left;
+
+  @include respond-to(md) {
+    padding: $space-5 $space-8;
+  }
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: $shadow-xl;
+  }
+}
+
+.btnAllIcon {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.btnAllText {
+  @include flex-column;
+  gap: 2px;
+
+  strong {
+    font-size: $font-size-md;
+    font-weight: $font-weight-bold;
+    color: $color-primary;
+  }
+
+  small {
+    font-size: $font-size-sm;
+    color: $color-grey-500;
+  }
+}
+
+// ── Parts ───────────────────────────────
+
+.parts {
+  padding-block: $space-10;
+  background-color: $color-grey-50;
+
+  @include respond-to(md) {
+    padding-block: $space-16;
+  }
+}
+
+.partsInner {
+  @include container($container-xl);
+  @include flex-column;
+  gap: $space-8;
+}
+
+.sectionTitle {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  color: $color-grey-800;
+  text-align: center;
+
+  @include respond-to(md) {
+    font-size: $font-size-2xl;
+  }
+}
+
+.partsGrid {
+  @include grid(1, $space-4);
+
+  @include respond-to(sm) {
+    @include grid(2, $space-4);
+  }
+
+  @include respond-to(lg) {
+    @include grid(4, $space-6);
+  }
+}
+
+.partCard {
+  @include card($space-5);
+  @include card-hover;
+  @include flex-column;
+  gap: $space-3;
+  border-top: 4px solid transparent;
+  animation: slideUp $transition-slow ease both;
+
+  @for $i from 1 through 4 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{$i * 80}ms;
+    }
+  }
+}
+
+.partCardHeader {
+  @include flex-between;
+  align-items: center;
+}
+
+.partNumber {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-bold;
+  padding: $space-1 $space-3;
+  border-radius: $radius-full;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.partCount {
+  font-size: $font-size-xs;
+  color: $color-grey-500;
+  font-weight: $font-weight-medium;
+}
+
+.partTitle {
+  font-size: $font-size-base;
+  font-weight: $font-weight-bold;
+  line-height: $line-height-snug;
+
+  @include respond-to(md) {
+    font-size: $font-size-md;
+  }
+}
+
+.partDesc {
+  font-size: $font-size-sm;
+  color: $color-grey-600;
+  line-height: $line-height-relaxed;
+  flex: 1;
+}
+
+.btnPart {
+  @include button-reset;
+  @include touch-target;
+  @include interactive;
+
+  width: 100%;
+  padding: $space-2 $space-4;
+  border-radius: $radius-md;
+  border: 2px solid transparent;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  margin-top: $space-2;
+
+  &:hover {
+    filter: brightness(0.92);
+  }
+}
+
+// ── Info strip ──────────────────────────
+
+.info {
+  background-color: $color-primary;
+  padding-block: $space-8;
+}
+
+.infoInner {
+  @include container($container-xl);
+  @include grid(2, $space-4);
+
+  @include respond-to(md) {
+    @include grid(4, $space-6);
+  }
+}
+
+.infoItem {
+  @include flex-column-center;
+  gap: $space-1;
+  text-align: center;
+  padding: $space-4;
+}
+
+.infoIcon {
+  font-size: 1.75rem;
+  line-height: 1;
+  margin-bottom: $space-1;
+}
+
+.infoValue {
+  font-size: $font-size-md;
+  font-weight: $font-weight-bold;
+  color: $color-white;
+
+  @include respond-to(md) {
+    font-size: $font-size-lg;
+  }
+}
+
+.infoLabel {
+  font-size: $font-size-xs;
+  color: rgba($color-white, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
