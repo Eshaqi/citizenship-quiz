@@ -2,13 +2,22 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useQuiz } from '@/features/quiz/hooks'
 import { PARTS, QUESTIONS } from '@/data'
+import type { PartId } from '@/features/quiz/types'
+import {
+  calculateScore,
+  calculatePercentage,
+  hasPassed,
+  getAnswersForPart,
+  getQuestionsForPart,
+  getResultMessage,
+  getResultEmoji,
+} from '@/utils/quiz.utils'
 import styles from './ResultsPage.module.scss'
 
 const ResultsPage = () => {
   const navigate = useNavigate()
-  const { state, score, restartQuiz } = useQuiz()
+  const { state, restartQuiz } = useQuiz()
 
-  // Redirect if no quiz was completed
   useEffect(() => {
     if (state.status !== 'complete') {
       navigate('/', { replace: true })
@@ -18,20 +27,18 @@ const ResultsPage = () => {
   if (state.status !== 'complete') return null
 
   const total = state.questions.length
-  const percentage = Math.round((score / total) * 100)
-  const passed = percentage >= 75
+  const score = calculateScore(state.userAnswers)
+  const percentage = calculatePercentage(score, total)
+  const passed = hasPassed(score, total)
+  const resultMessage = getResultMessage(percentage)
+  const resultEmoji = getResultEmoji(percentage)
 
-  // ── Per-part breakdown ──────────────────
   const partBreakdown = PARTS.map(part => {
-    const partQuestions = state.questions.filter(q => q.partId === part.id)
-    const partAnswers = state.userAnswers.filter(a => {
-      const q = state.questions.find(q => q.id === a.questionId)
-      return q?.partId === part.id
-    })
-    const partScore = partAnswers.filter(a => a.status === 'correct').length
+    const partQuestions = getQuestionsForPart(state.questions, part.id as PartId)
+    const partAnswers = getAnswersForPart(state.userAnswers, state.questions, part.id as PartId)
+    const partScore = calculateScore(partAnswers)
     const partTotal = partQuestions.length
-    const partPct = partTotal > 0 ? Math.round((partScore / partTotal) * 100) : 0
-
+    const partPct = calculatePercentage(partScore, partTotal)
     return { part, partScore, partTotal, partPct }
   }).filter(b => b.partTotal > 0)
 
@@ -40,13 +47,8 @@ const ResultsPage = () => {
     navigate('/')
   }
 
-  const handleRetry = () => {
-    restartQuiz()
-    navigate('/')
-  }
-
   return (
-    <div className={styles.page}>
+    <div className={`${styles.page} page-enter`}>
       <div className={styles.inner}>
         {/* ── Result hero ── */}
         <div className={styles.hero}>
@@ -57,7 +59,7 @@ const ResultsPage = () => {
               backgroundColor: passed ? '#E8F5E9' : '#FFEBEE',
             }}
           >
-            <span className={styles.scoreEmoji}>{passed ? '🎉' : '📚'}</span>
+            <span className={styles.scoreEmoji}>{resultEmoji}</span>
             <span className={styles.scoreNumber} style={{ color: passed ? '#2E7D32' : '#C62828' }}>
               {percentage}%
             </span>
@@ -68,12 +70,7 @@ const ResultsPage = () => {
 
           <div className={styles.heroText}>
             <h1 className={styles.resultTitle}>{passed ? 'Congratulations!' : 'Keep Studying!'}</h1>
-            <p className={styles.resultSub}>
-              {passed
-                ? "You're well prepared for the Australian citizenship test!"
-                : 'You need 75% to pass. Review the Our Common Bond booklet and try again.'}
-            </p>
-
+            <p className={styles.resultSub}>{resultMessage}</p>
             <div
               className={styles.passBadge}
               style={{
@@ -115,9 +112,7 @@ const ResultsPage = () => {
                       {partPct}%
                     </span>
                   </div>
-
                   <p className={styles.breakdownPartTitle}>{part.title}</p>
-
                   <div className={styles.breakdownBar}>
                     <div
                       className={styles.breakdownFill}
@@ -127,7 +122,6 @@ const ResultsPage = () => {
                       }}
                     />
                   </div>
-
                   <p className={styles.breakdownScore}>
                     {partScore} / {partTotal} correct
                   </p>
@@ -154,7 +148,6 @@ const ResultsPage = () => {
                     o => o.id === answer.selectedOptionId,
                   )
                   const part = PARTS.find(p => p.id === question.partId)!
-
                   return (
                     <div key={answer.questionId} className={styles.reviewItem}>
                       <div className={styles.reviewMeta}>
@@ -184,7 +177,7 @@ const ResultsPage = () => {
 
         {/* ── Actions ── */}
         <div className={styles.actions}>
-          <button className={styles.btnPrimary} onClick={handleRetry}>
+          <button className={styles.btnPrimary} onClick={handleRestart}>
             🔄 Try Again
           </button>
           <button className={styles.btnSecondary} onClick={handleRestart}>

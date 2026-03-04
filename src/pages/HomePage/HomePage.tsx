@@ -22,7 +22,7 @@ const HomePage = () => {
   }
 
   return (
-    <div className={styles.page}>
+    <div className={`${styles.page} page-enter`}>
       {/* ── Resume banner ── */}
       {hasSavedSession && (
         <div className={styles.resumeBanner}>

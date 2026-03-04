@@ -57,7 +57,7 @@ const QuizPage = () => {
   const isLastQuestion = state.currentIndex === state.questions.length - 1
 
   return (
-    <div className={styles.page}>
+    <div className={`${styles.page} page-enter`}>
       <div className={styles.inner}>
         {/* ── Keyboard hint ── */}
         <div className={styles.keyboardHint}>
