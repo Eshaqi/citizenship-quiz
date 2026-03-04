@@ -1,17 +1,34 @@
+import { useState } from 'react'
 import { QUESTIONS, PARTS } from '@/data'
+import QuizCard from '@/features/quiz/components/QuizCard'
+import { ProgressBar } from '@/components/ui'
+import type { UserAnswer } from '@/features/quiz/types'
+import styles from './App.module.scss'
 
 const App = () => {
+  const [userAnswer, setUserAnswer] = useState<UserAnswer | null>(null)
+  const question = QUESTIONS[0]
+  const part = PARTS.find(p => p.id === question.partId)!
+
+  const handleAnswer = (optionId: string) => {
+    if (userAnswer) return
+    setUserAnswer({
+      questionId: question.id,
+      selectedOptionId: optionId,
+      status: optionId === question.correctOptionId ? 'correct' : 'incorrect',
+    })
+  }
+
   return (
-    <div style={{ padding: '2rem', fontFamily: 'inherit' }}>
-      <h1>🇦🇺 Citizenship Quiz</h1>
-      <p className="text-muted" style={{ marginTop: '0.5rem' }}>
-        {PARTS.length} parts · {QUESTIONS.length} questions
-      </p>
-      <h3 style={{ marginTop: '1.5rem' }}>Heading 3 — fluid scale</h3>
-      <h4>Heading 4</h4>
-      <p className="text-sm text-muted">Small muted text</p>
-      <p className="text-success font-semibold">Success colour</p>
-      <p className="text-error font-semibold">Error colour</p>
+    <div className={styles.wrapper}>
+      <ProgressBar current={1} total={QUESTIONS.length} color={part.color} />
+      <QuizCard
+        question={question}
+        questionNumber={1}
+        totalQuestions={QUESTIONS.length}
+        userAnswer={userAnswer}
+        onAnswer={handleAnswer}
+      />
     </div>
   )
 }

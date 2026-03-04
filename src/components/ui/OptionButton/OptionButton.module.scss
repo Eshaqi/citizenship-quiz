@@ -1,0 +1,127 @@
+@use '../../../styles/abstracts/breakpoints' as *;
+@use '../../../styles/abstracts/mixins' as *;
+@use '../../../styles/abstracts/variables' as *;
+
+.option {
+  @include button-reset;
+  @include touch-target;
+  @include flex-between;
+
+  width: 100%;
+  gap: $space-3;
+  padding: $space-3 $space-4;
+  border-radius: $radius-md;
+  border: 2px solid $color-grey-300;
+  background-color: $color-white;
+  text-align: left;
+  cursor: pointer;
+  transition: all $transition-base;
+  animation: slideUp $transition-base ease both;
+
+  @include respond-to(md) {
+    padding: $space-4 $space-5;
+    border-radius: $radius-lg;
+    gap: $space-4;
+  }
+
+  // Hover — only when not disabled
+  &:not(:disabled):hover {
+    border-color: $color-primary-light;
+    background-color: $color-primary-tint;
+    transform: translateX(4px);
+
+    .label {
+      background-color: $color-primary;
+      color: $color-white;
+    }
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  // ── States ─────────────────────────────
+
+  &.selected {
+    border-color: $color-primary-light;
+    background-color: $color-primary-tint;
+
+    .label {
+      background-color: $color-primary;
+      color: $color-white;
+    }
+  }
+
+  &.correct {
+    border-color: $color-success-border;
+    background-color: $color-success-light;
+    color: $color-success;
+    animation: pulse 400ms ease;
+
+    .label {
+      background-color: $color-success;
+      color: $color-white;
+    }
+  }
+
+  &.incorrect {
+    border-color: $color-error-border;
+    background-color: $color-error-light;
+    color: $color-error;
+    animation: shake 400ms ease;
+
+    .label {
+      background-color: $color-error;
+      color: $color-white;
+    }
+  }
+
+  &.dimmed {
+    opacity: 0.45;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+.label {
+  @include flex-center;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: $radius-full;
+  background-color: $color-grey-100;
+  color: $color-grey-700;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-bold;
+  transition: all $transition-base;
+
+  @include respond-to(md) {
+    width: 36px;
+    height: 36px;
+    font-size: $font-size-base;
+  }
+}
+
+.text {
+  flex: 1;
+  font-size: $font-size-base;
+  line-height: $line-height-snug;
+  color: $color-grey-800;
+
+  @include respond-to(md) {
+    font-size: $font-size-md;
+  }
+}
+
+.icon {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+
+  @include respond-to(md) {
+    width: 24px;
+    height: 24px;
+  }
+}

@@ -1,0 +1,14 @@
+@use './styles/abstracts/breakpoints' as *;
+@use './styles/abstracts/mixins' as *;
+@use './styles/abstracts/variables' as *;
+
+.wrapper {
+  @include container($container-md);
+  @include flex-column;
+  gap: $space-6;
+  padding-block: $space-6;
+
+  @include respond-to(md) {
+    padding-block: $space-10;
+  }
+}

@@ -1,0 +1,72 @@
+@use '../../../../styles/abstracts/breakpoints' as *;
+@use '../../../../styles/abstracts/variables' as *;
+@use '../../../../styles/abstracts/mixins' as *;
+
+.card {
+  @include card($space-4);
+  @include flex-column;
+  gap: $space-4;
+  width: 100%;
+  animation: scaleIn $transition-base ease both;
+
+  @include respond-to(md) {
+    @include card($space-6);
+    gap: $space-6;
+  }
+
+  @include respond-to(lg) {
+    @include card($space-8);
+  }
+}
+
+.header {
+  @include flex-column;
+  gap: $space-2;
+}
+
+.meta {
+  @include flex-between;
+  align-items: center;
+}
+
+.counter {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $color-grey-500;
+}
+
+.partTitle {
+  font-size: $font-size-sm;
+  color: $color-grey-600;
+  line-height: $line-height-snug;
+
+  @include respond-to(md) {
+    font-size: $font-size-base;
+  }
+}
+
+.question {
+  padding-block: $space-2;
+  border-top: 1px solid $color-grey-200;
+  border-bottom: 1px solid $color-grey-200;
+}
+
+.questionText {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-snug;
+  color: $color-grey-900;
+
+  @include respond-to(md) {
+    font-size: $font-size-xl;
+  }
+}
+
+.options {
+  @include flex-column;
+  gap: $space-2;
+
+  @include respond-to(md) {
+    gap: $space-3;
+  }
+}

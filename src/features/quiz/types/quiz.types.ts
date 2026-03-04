@@ -25,12 +25,12 @@ export interface Question {
 
 /* Quiz runtime state types */
 
-export type AnswersStatus = 'unanswered' | 'correct' | 'incorrect'
+export type AnswerStatus = 'unanswered' | 'correct' | 'incorrect'
 
 export interface UserAnswer {
   questionId: string
   selectedOptionId: string
-  status: AnswersStatus
+  status: AnswerStatus
 }
 
 export type QuizMode = 'all' | 'part'
