@@ -1,5 +1,5 @@
 import { PARTS } from '@/data'
-import { Question, UserAnswer } from '../../types'
+import { Question, UserAnswer } from '@/features/quiz/types'
 import styles from './QuizCard.module.scss'
 import Badge from '@/components/ui/Badge'
 import OptionButton from '@/components/ui/OptionButton'
@@ -31,7 +31,7 @@ const QuizCard = ({
         <div className={styles.meta}>
           <Badge label={`Part ${part.id}`} color={part.color} tintColor={part.accentColor} />
           <span className={styles.counter}>
-            {questionNumber} \ {totalQuestions}{' '}
+            {questionNumber} / {totalQuestions}{' '}
           </span>
         </div>
         <p className={styles.partTitle}>{part.title}</p>
@@ -48,11 +48,6 @@ const QuizCard = ({
       <div className={styles.options} role="list">
         {question.options.map((option, index) => {
           const isSelected = userAnswer?.selectedOptionId === option.id
-
-          const status = (() => {
-            if (!isAnswered || !isSelected) return 'idle'
-            return userAnswer.status
-          })()
 
           // After answering — also highlight correct if user was wrong
           const resolvedStatus = (() => {
