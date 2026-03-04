@@ -40,12 +40,12 @@ export interface QuizConfig {
   partId?: PartId
 }
 
-export type QuizStatus = 'idle' | 'active' | 'answered' | 'completed'
+export type QuizStatus = 'idle' | 'active' | 'answered' | 'complete'
 
 export interface QuizState {
   config: QuizConfig
   questions: Question[]
   currentIndex: number
-  userAnswer: UserAnswer[]
+  userAnswers: UserAnswer[]
   status: QuizStatus
 }
