@@ -54,7 +54,7 @@ const OptionButton = ({
   onClick,
 }: OptionButtonProps) => {
   const classNames = [
-    styles.options,
+    styles.option,
     isSelected ? styles.selected : '',
     status === 'correct' ? styles.correct : '',
     status === 'incorrect' ? styles.incorrect : '',
