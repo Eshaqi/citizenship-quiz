@@ -1,7 +1,4 @@
-@use '../../../styles/abstracts/mixins' as *;
-@use '../../../styles/abstracts/breakpoints' as *;
-@use '../../../styles/abstracts/variables' as *;
-
+@use '../../../styles/abstracts' as *;
 .wrapper {
   @include flex-column;
   gap: $space-2;

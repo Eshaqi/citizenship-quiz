@@ -1,4 +1,4 @@
-@use '../abstracts/variables' as *;
+@use '../abstracts' as *;
 
 .page-enter {
   animation: fadeIn $transition-base ease both;
