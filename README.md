@@ -51,7 +51,7 @@ This app covers all four testable parts of the _Our Common Bond_ resource:
 
 ## 🚀 Live Demo
 
-> [citizenship-quiz.vercel.app](https://citizenship-quiz.vercel.app)
+> [https://citizenship-quiz-sigma.vercel.app/](https://citizenship-quiz-sigma.vercel.app/)
 
 ---
 
