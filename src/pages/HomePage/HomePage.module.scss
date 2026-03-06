@@ -167,22 +167,30 @@
 }
 
 .partNumber {
-  font-size: $font-size-xs;
+  font-size: $font-size-2xl;
   font-weight: $font-weight-bold;
   padding: $space-1 $space-3;
   border-radius: $radius-full;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+
+  @include respond-to(md) {
+    font-size: $font-size-xs;
+  }
 }
 
 .partCount {
-  font-size: $font-size-xs;
+  font-size: $font-size-xl;
   color: $color-grey-500;
   font-weight: $font-weight-medium;
+
+  @include respond-to(md) {
+    font-size: $font-size-xs;
+  }
 }
 
 .partTitle {
-  font-size: $font-size-base;
+  font-size: $font-size-xl;
   font-weight: $font-weight-bold;
   line-height: $line-height-snug;
 
